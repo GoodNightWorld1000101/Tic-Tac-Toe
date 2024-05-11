@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <ctime>
 #include "raylib.h"
 using namespace std;
@@ -28,8 +28,8 @@ class ball
 {
 public:
     float x, y;
-    int width = 32;
-    int height = 32;
+    int width = 50;
+    int height = 50;
     Rectangle rec = {x, y, width, height};
     void ball_move() // sektor
     {                // switch mis sektoris asub
@@ -66,8 +66,8 @@ public:
     }
     void draw(Texture2D texture)
     {
-        DrawRectangle(x, y, 32, 32, MAROON);
-        //DrawTexture(texture, x, y, WHITE);
+        DrawRectangle(x, y, width, height, MAROON);
+        DrawTexture(texture, x, y, WHITE);
     }
 };
 class Bones
@@ -77,7 +77,7 @@ public:
     int speed;
     bool is_moving;
     int width = 20;
-    int height = 140;
+    int height = 120;
     Rectangle rec = {x, y, width, height};
     void draw()
     {
@@ -138,7 +138,7 @@ int kontroll()
     for (int i = 0; i < 3; i++)
     {
         check = board[i][0];
-        bool win = true;
+        bool win = true;//------------------------------>>>>>>>>>check
         for (int j = 1; j < 3; j++)
         {
             if (board[i][j] != check)
@@ -156,7 +156,7 @@ int kontroll()
     {
         check = board[0][i];
         bool win = true;
-        for (int j = 1; j < 3; j++)
+        for (int j = 0; j < 3; j++)
         {
             if (board[j][i] != check)
             {
@@ -164,7 +164,7 @@ int kontroll()
             }
             else if (j == 2 && win)
             {
-                winner = board[i][j];
+                winner = board[j][i];
                 return 1;
             }
         }
@@ -174,6 +174,7 @@ int kontroll()
         winner = board[1][1];
         return 1;
     }
+    
     if (board[0][2] == board[1][1] && board[2][0] == board[1][1])
     {
         winner = board[1][1];
@@ -294,11 +295,11 @@ int main(void)
     const int screenHeight = 900;
     InitWindow(screenWidth, screenHeight, "TIC-TAC-TOE");
 
-    // Image image = LoadImage("C:\\Users\\subbi\\space-invader\\SPACE INVADER\\SUDA.png");
-    Image image = LoadImage("C:\\Users\\subbi\\space-invader\\SPACE INVADER\\empty_heart.png");
+    Image image = LoadImage("C:\\Users\\subbi\\space-invader\\SPACE INVADER\\SUDA.png");
+    //Image image = LoadImage("C:\\Users\\subbi\\Downloads\\pixil-frame-0 (1).png");
     Texture2D texture = LoadTextureFromImage(image);
     UnloadImage(image);
-    Image imagebg = LoadImage("C:\\Users\\subbi\\Witchhunter\\SPACE INVADER\\fucked_hitbox\\background.png");
+    Image imagebg = LoadImage("C:\\Users\\subbi\\c++\\tic-tac-toe\\build\\endscreen.png");
     Texture2D texture2 = LoadTextureFromImage(imagebg);
     UnloadImage(imagebg);
     // bones
@@ -318,8 +319,6 @@ int main(void)
                       //--------------------------------------------------------------------------------------
     Bones bone1;
     Bones bone2;
-    Bones bone3;
-    Bones bone4;
     ball ball;
     ball.x = 450;
     ball.y = 450;
@@ -337,7 +336,7 @@ int main(void)
         if (fight && time(NULL) - fight_timer < 30 && !dead)
         {
 
-            if (CheckCollisionRecs({ball.x, ball.y, ball.width, ball.height}, {bone1.x, bone1.y, bone1.width, bone1.height}) || CheckCollisionRecs({ball.x, ball.y, ball.width, ball.height}, {bone2.x, bone2.y, bone2.width, bone2.height}) || CheckCollisionRecs({ball.x, ball.y, ball.width, ball.height}, {bone3.x, bone3.y, bone3.width, bone3.height}) || CheckCollisionRecs({ball.x, ball.y, ball.width, ball.height}, {bone4.x, bone4.y, bone4.width, bone4.height}))
+            if (CheckCollisionRecs({ball.x, ball.y, ball.width, ball.height}, {bone1.x, bone1.y, bone1.width, bone1.height})||CheckCollisionRecs({ball.x, ball.y, ball.width, ball.height}, {bone2.x, bone2.y, bone2.width, bone2.height}))
             {
                 dead = true;
                 if (playing_for ==  'X'){playing_for='O';}
@@ -355,40 +354,19 @@ int main(void)
                 bone1.speed = 2;
                 bone1.is_moving = true;
                 bone2.x = board_filled[row_box][column_box][0] + 260;
-                bone2.y = board_filled[row_box][column_box][1];
+                bone2.y = board_filled[row_box][column_box][1] ;
                 bone2.speed = 2;
                 bone2.is_moving = true;
-                /*bone3.x = board_filled[row_box][column_box][0] + 260;
-                bone3.y = board_filled[row_box][column_box][1] + 160;
-                bone3.speed = 2;
-                bone3.is_moving = true;
-                bone4.x = board_filled[row_box][column_box][0] + 260;
-                bone4.y = board_filled[row_box][column_box][1];
-                bone4.speed = 2;
-                bone4.is_moving = true;*/
             }
 
             bone1.move(board_filled[row_box][column_box][0]);
             bone1.draw();
-            if (time(NULL) - fight_timer >= 2)
+            if (time(NULL) - fight_timer > 1.167)
             {
-                bone2.move(board_filled[row_box][column_box][0]);
-                bone2.draw();
-                //DrawTexture(loo, bone2.x, bone2.y, RED);
+            bone2.move(board_filled[row_box][column_box][0]);
+            bone2.draw();
             }
-           /* if (time(NULL) - fight_timer >= 2*2)
-            {
-                bone3.move(board_filled[row_box][column_box][0]);
-                bone3.draw();
-                //DrawTexture(bones_pic, bone3.x, bone3.y, WHITE);
-            }
-            if (time(NULL) - fight_timer >= 3*2)
-            {
-                bone4.move(board_filled[row_box][column_box][0]);
-                bone4.draw();
-                //DrawTexture(loo, bone4.x, bone4.y, RED);
-            }*/
-            //DrawTexture(bones_pic, bone1.x, bone1.y, WHITE);
+           
 
             ball.ball_move();
 
@@ -449,7 +427,7 @@ int main(void)
             BeginDrawing();
 
             DrawTexture(texture2, 0, 0, WHITE);
-            DrawTexture(texture2, 0, 700, WHITE);
+            
             //----------------------------------------------------------------
             DrawRectangle(300, 500, 330, 50, varv);
             DrawText("PLAY AGAIN", 310, 500, 50, BLACK);
@@ -464,11 +442,11 @@ int main(void)
             }
             else
             {
-                DrawText("It's a Tie!", 170, 400, 100, LIGHTGRAY);
+                DrawText("it's a tie!", 170, 400, 100, LIGHTGRAY);
             }
             EndDrawing();
         }
     }
     CloseWindow();
     return 0;
-}
+}*/
