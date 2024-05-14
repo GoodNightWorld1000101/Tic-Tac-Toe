@@ -2,8 +2,12 @@
 #include "Table.h"
 #include "player.h"
 #include "attacks.h"
+#include "flying_attack.h"
 #include <cstdio>
 #include <ctime>
+using namespace std;
+
+
 //--------------------MOUSE RELATED FUNCTIONS ------------------------------------
 Vector2 check_mouse(Table *field,__uint128_t*timer)
 {
@@ -160,12 +164,7 @@ bool Fight_phase(Table *field,Player *player,Attacks *attack_1,Attacks * attack_
                 else if (field -> playing_for ==  'O'){field -> playing_for = 'X';}
                 return false;
             }
-            if (CheckCollisionRecs(player->rec, attack_1->bullet)||CheckCollisionRecs(player->rec, attack_2->bullet))
-            {
-                if (field -> playing_for ==  'X'){field -> playing_for='O';}
-                else if (field -> playing_for ==  'O'){field -> playing_for = 'X';}
-                return false;
-            }
+
             BeginDrawing();
             ClearBackground(BLACK);
 
@@ -181,6 +180,41 @@ bool Fight_phase(Table *field,Player *player,Attacks *attack_1,Attacks * attack_
             field->draw_table();
             
             DrawText("TIC - TAC - TOE from hell!", 300, 20, 0, LIGHTGRAY);
+            player->draw();
+
+            EndDrawing();
+            return true;
+        }
+bool Fight_phase_1(Table *field,Player *player,flying_attack *attack_1,flying_attack * attack_2,flying_attack * attack_3,flying_attack * attack_4,int attack)
+        {
+
+            if (CheckCollisionRecs(player->rec, attack_1->rec)||CheckCollisionRecs(player->rec, attack_2->rec)||CheckCollisionRecs(player->rec, attack_3->rec)||CheckCollisionRecs(player->rec, attack_4->rec))
+            {
+                if (field -> playing_for ==  'X'){field -> playing_for='O';}
+                else if (field -> playing_for ==  'O'){field -> playing_for = 'X';}
+                cout<< "Suck on my spagetti"<<endl;
+                return false;
+            }
+
+            BeginDrawing();
+            ClearBackground(BLACK);
+
+            attack_1->fall_rise();
+            attack_2->fall_rise();
+            attack_3->fall_rise();
+            attack_4->fall_rise();
+            player->move();
+
+            //----------------------------------------------------------------------------------
+
+            //----------------------------------------------------------------
+            attack_1->draw();
+            attack_2->draw();
+            attack_3->draw();
+            attack_4->draw();
+            field->draw_table();
+            
+            DrawText("TIC - TAC - TOE from hell!", 300, 20, 0, BLUE);
             player->draw();
 
             EndDrawing();
