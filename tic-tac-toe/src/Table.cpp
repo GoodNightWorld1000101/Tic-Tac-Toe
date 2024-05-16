@@ -8,12 +8,12 @@ Table::Table(Texture2D x, Texture2D o)
     x_pic = x;
 }
 
-void Table::draw_table()
+void Table::draw_table() // joonistab laua pildi
 {
     playing_for = playing_for;
-    row=row;
-    column=column;
-    fight=fight;
+    row = row;
+    column = column;
+    fight = fight;
     turn = turn;
     int vahe = 260;
     int paksus = 30;
@@ -49,7 +49,7 @@ void Table::draw_table()
     }
 }
 
-char Table::check_game_state()
+char Table::check_game_state() // kontrollib kas mang on labi voi ei ja tagastab olenevalt voitja margi voi ' ' kui viik ja kui mang veel kaib siis 1
 {
     char check;
 
@@ -59,14 +59,14 @@ char Table::check_game_state()
         bool win = true; //------------------------------>>>>>>>>>rea check
         for (int j = 1; j < 3; j++)
         {
-            
+
             if (board_state[i][j] != check)
             {
                 win = false;
             }
             else if (j == 2 && win)
             {
-                
+
                 return board_state[i][j];
             }
         }
@@ -82,19 +82,19 @@ char Table::check_game_state()
                 win = false;
             }
             else if (j == 2 && win)
-            {   
+            {
                 return board_state[j][i];
             }
         }
-    if (board_state[0][0] == board_state[1][1] && board_state[2][2] == board_state[1][1])
-    {
-        return board_state[1][1];
-    }
-    
-    if (board_state[0][2] == board_state[1][1] && board_state[2][0] == board_state[1][1])
-    {
-        return board_state[1][1];
-    }
+        if (board_state[0][0] == board_state[1][1] && board_state[2][2] == board_state[1][1])
+        {
+            return board_state[1][1];
+        }
+
+        if (board_state[0][2] == board_state[1][1] && board_state[2][0] == board_state[1][1])
+        {
+            return board_state[1][1];
+        }
     }
     if (turn == 9)
     {
@@ -104,7 +104,7 @@ char Table::check_game_state()
     return '1';
 }
 
-void Table::set_mark()
+void Table::set_mark() // muudab laua maaratud vaartusi
 {
     board_state[row][column] = playing_for;
 }

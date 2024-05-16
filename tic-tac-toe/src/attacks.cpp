@@ -14,6 +14,13 @@ Attacks::Attacks(float x, float y, float width, float height, float speed, int i
     this->is_alive = is_alive;
     this->picture = pic;
     this->attack_color = color;
+    floor = 290;
+    ceil = 30;
+    rec = {x, y, width, height};
+    // bullet.x=x;
+    // bullet.y=y;
+    algus = 30;
+    lopp = 290;
 }
 void Attacks::draw(int attack)
 {
@@ -24,9 +31,9 @@ void Attacks::draw(int attack)
         DrawTexture(picture, x, y, attack_color);
         break;
     case 1:
-        bullet.x = x;
-        bullet.y = y;
-        DrawRectangle(x,y,20,20, BLUE);
+        // bullet.x = x;
+        // bullet.y = y;
+        DrawRectangle(x, y, 20, 20, BLUE);
         break;
     }
 }
@@ -79,27 +86,30 @@ void Attacks::attack(int attack, bool down)
                 y -= speed;
             }
             else if (y <= ceil)
-            {y += speed;}
+            {
+                y += speed;
+            }
             rec.y = y;
         }
         break;
     }
 }
-    void Attacks::setFloorandCeil(int row,int lahutus)
+void Attacks::setFloorandCeil(int row, int lahutus)
+{
+    switch (row)
     {
-        switch(row)
-        {case 0:
-            floor = 290;
-            ceil = 30;
-            break;
-        case 1:
-            floor = 580;
-            ceil = 320;
-            break;
-        case 2:
-            floor = 870;
-            ceil = 610;
-            break;
-        }
-        x-=lahutus;
+    case 0:
+        floor = 290;
+        ceil = 30;
+        break;
+    case 1:
+        floor = 580;
+        ceil = 320;
+        break;
+    case 2:
+        floor = 870;
+        ceil = 610;
+        break;
     }
+    x -= lahutus;
+}
