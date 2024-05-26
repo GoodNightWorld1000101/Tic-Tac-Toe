@@ -22,7 +22,6 @@ $(TARGET): $(OBJECTS)
 
 # Compile each .cpp file to an .o file
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(OBJ_DIR)  # Ensure the bin directory exists
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 # Clean up build artifacts
